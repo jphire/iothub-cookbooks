@@ -1,0 +1,42 @@
+{
+    "push": {
+        "name": "jphire/galileo-base"
+    },
+    "builders": [
+        {
+            "type": "virtualbox-ovf",
+            "source_path": "galileo.ovf",
+            "ssh_username": "root",
+            "ssh_password": "root",
+            "ssh_wait_timeout": "30m",
+            "boot_wait": "15s",
+            "boot_command": [],
+            "format": "ovf",
+            "headless": true,
+            "http_directory": "",
+            "shutdown_command": "sudo shutdown -h now"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "apt-get install -y curl",
+                "apt-get install -y git",
+                "apt-get install -y ruby-full"
+            ]
+        },
+        {
+            "type": "chef-solo",
+            "cookbook_paths": ["vendor/cookbooks"],
+            "run_list": ["galileo-hub::default"]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "only": ["virtualbox-ovf"],
+            "output": "galileo.box"
+        } 
+    ]
+}

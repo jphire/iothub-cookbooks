@@ -7,3 +7,14 @@ bin/*
 
 .kitchen/
 .kitchen.local.yml
+
+# Cache objects
+packer_cache/
+
+# For built boxes
+*.box
+*.vmdk
+*.ovf
+
+vendor/
+
