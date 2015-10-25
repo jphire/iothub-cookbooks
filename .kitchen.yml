@@ -1,0 +1,17 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: galileo-debian7
+    driver:
+      box: jphire/galileo-base2
+
+suites:
+  - name: default
+    run_list:
+      - recipe[galileo-hub::default]
+    attributes:
