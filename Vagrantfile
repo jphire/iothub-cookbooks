@@ -12,7 +12,11 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "jphire/galileo-base"
+  # 
+  # IoT Hub specific: you can either use this public base box, or create your own
+  # and use that instead. Currently tested with Debian 7, OpenJDK 7 should be installed.
+  # The packer template included in this repo can be used to create a custom box.
+  config.vm.box = "jphire/galileo-base2"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -69,6 +73,28 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install -y apache2
   # SHELL
 
-  # enable berkshelf plugin
-  config.berkshelf.enabled = true
+  # Enable berkshelf plugin, should only be used if cookbook dependencies 
+  # need to be fetched.
+  # config.berkshelf.enabled = true
+
+  # config.vm.provision "shell", path: "setup.sh"
+  # config.vm.network "private_network", type: "dhcp"
+
+  # Start 2 hub by default, but users are free to add/remove VMs as they like. 
+  config.vm.define :hub1 do |hub|
+    hub.vm.network :forwarded_port, guest: 8080, host: 9001
+    hub.vm.hostname = "hub1"
+    hub.vm.synced_folder "/Users/jphire/Code/java_projects/kahvihub/", "/home/vagrant/kahvihub"
+    hub.vm.network :private_network, ip: "192.168.56.101"
+    hub.vm.provision :shell, path: "setup.sh"
+  end
+
+  config.vm.define :hub2 do |hub|
+    hub.vm.network :forwarded_port, guest: 8080, host: 9002
+    hub.vm.hostname = "hub2"
+    hub.vm.synced_folder "/Users/jphire/Code/java_projects/kahvihub/", "/home/vagrant/kahvihub"
+    hub.vm.network :private_network, ip: "192.168.56.102"
+    hub.vm.provision :shell, path: "setup.sh"
+  end
+
 end
