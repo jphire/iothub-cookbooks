@@ -14,9 +14,13 @@ Clone the repo, cd to it.
 Then, either
 
 1. Build your own base box
-	Download the Galileo base VM for building with packer:
-	```
 
+
+	Download the Galileo base VM for building with packer:
+
+
+	```
+	wget 
 	```
 
 	Build vagrant box like so:

@@ -20,3 +20,5 @@ packer_cache/
 
 vendor/
 
+/testbed/out.txt
+/testbed/response.json
