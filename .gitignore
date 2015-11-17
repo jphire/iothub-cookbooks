@@ -22,3 +22,5 @@ vendor/
 
 /testbed/out.txt
 /testbed/response.json
+
+/testbed/results/
