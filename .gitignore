@@ -24,3 +24,5 @@ vendor/
 /testbed/response.json
 
 /testbed/results/
+*.conf
+*.out

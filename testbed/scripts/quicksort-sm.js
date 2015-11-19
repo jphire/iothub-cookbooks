@@ -13,12 +13,16 @@ function wrapper () {
 	};
 
 	var times = [
+		quickSort(5000),
 		quickSort(10000),
         quickSort(15000),
         quickSort(20000),
         quickSort(25000),
         quickSort(30000),
-        quickSort(35000)
+        quickSort(35000),
+        quickSort(40000),
+        quickSort(45000),
+        quickSort(50000)
 	];
 
 	return times.join('\t');

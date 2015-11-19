@@ -2,7 +2,6 @@ function wrapper () {
 	function quickSort(limit) {
 
 		var nums = [];
-		var len = limit;
 		for (var i = 0; i<limit; i++) {
 			nums[i] = Math.random();
 		}
@@ -14,19 +13,17 @@ function wrapper () {
 	};
 
 	var times = [
-		quickSort(50000),
-		quickSort(100000),
-		quickSort(150000),
-		quickSort(200000),
-		quickSort(250000),
-		quickSort(300000),
-		quickSort(350000),
-		quickSort(400000),
-		quickSort(450000),
-		quickSort(500000)
+		quickSort(5000),
+		quickSort(10000),
+        quickSort(15000),
+        quickSort(20000),
+        quickSort(25000),
+        quickSort(30000),
+        quickSort(35000),
+        quickSort(40000),
+        quickSort(45000),
+        quickSort(50000)
 	];
 
 	return times.join('\t');
 };
-
-wrapper();

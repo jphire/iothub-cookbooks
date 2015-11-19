@@ -32,7 +32,7 @@ function wrapper() {
 		return time;
 	}
 
-	var iterations = [500000, 1000000, 1500000, 2000000, 2500000, 3000000, 3500000, 4000000, 4500000, 5000000],
+	var iterations = [40000, 50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000],
 		times = []
 	var len = iterations.length;
 
