@@ -84,7 +84,7 @@ Vagrant.configure(2) do |config|
   config.vm.define :hub1 do |hub|
     hub.vm.network :forwarded_port, guest: 8080, host: 9001
     hub.vm.hostname = "hub1"
-    hub.vm.synced_folder "/Users/jphire/Code/java_projects/kahvihub/", "/home/vagrant/kahvihub"
+    # hub.vm.synced_folder "/Users/jphire/Code/java_projects/kahvihub/", "/home/vagrant/kahvihub"
     hub.vm.network :private_network, ip: "192.168.56.101"
     hub.vm.provision :shell, path: "setup-iothub.sh"
   end
