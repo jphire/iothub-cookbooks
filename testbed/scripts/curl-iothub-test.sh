@@ -69,27 +69,27 @@ function loopX {
 	# Get mean from each column and print it with awk. Mean results are multiplied by 1000 to get milliseconds.
     echo -n > mean-$TYPE-$METHOD.out
 
-    if [ "$METHOD"=="fibonacci-sm" ]; then
+    if [ "$METHOD" == "fibonacci-sm" ]; then
         # FIBONACCI SMALL
         awk '{ total1+=$1; total2+=$2; total3+=$3; total4+=$4; total5+=$5; total6+=$6; total7+=$7; total8+=$8; total9+=$9; total10+=$10; reqtime+=$11; c++ } \
         END { printf "%f\t%i\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n", reqtime/c*1000,c,total1/c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"mean-$TYPE-$METHOD.out"
-    elif [ "$METHOD"=="fibonacci" ]; then
+    elif [ "$METHOD" == "fibonacci" ]; then
         # FIBONACCI
        awk '{ total1+=$1; total2+=$3; total3+=$5; total4+=$7; total5+=$9; total6+=$11; total7+=$13; total8+=$15; total9+=$17; total10+=$19; reqtime+=$20; c++ } \
         END { printf "%f\t%i\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n", reqtime/c*1000,c,total1/c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"mean-$TYPE-$METHOD.out"
-    elif [ "$METHOD"=="quicksort" ]; then
+    elif [ "$METHOD" == "quicksort" ]; then
         # QUICKSORT
         awk '{ total1+=$1; total2+=$2; total3+=$3; total4+=$4; total5+=$5; total6+=$6; total7+=$7; total8+=$8; total9+=$9; total10+=$10; reqtime+=$11; c++ } \
         END { printf "%f\t%i\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n", reqtime/c*1000,c,total1/c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"mean-$TYPE-$METHOD.out"
-    elif [ "$METHOD"=="quicksort-sm" ]; then
+    elif [ "$METHOD" == "quicksort-sm" ]; then
         # QUICKSORT
         awk '{ total1+=$1; total2+=$2; total3+=$3; total4+=$4; total5+=$5; total6+=$6; total7+=$7; total8+=$8; total9+=$9; total10+=$10; reqtime+=$11; c++ } \
         END { printf "%f\t%i\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n", reqtime/c*1000,c,total1/c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"mean-$TYPE-$METHOD.out"    
-    elif [ "$METHOD"=="newton" ]; then
+    elif [ "$METHOD" == "newton" ]; then
         # NEWTON'S METHOD
         awk '{ total1+=$1; total2+=$2; total3+=$3; total4+=$4; total5+=$5; total6+=$6; total7+=$7; total8+=$8; total9+=$9; total10+=$10; reqtime+=$11; c++ } \
         END { printf "%f\t%i\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n", reqtime/c*1000,c,total1/c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"mean-$TYPE-$METHOD.out"
-    elif [ "$METHOD"=="newton-sm" ]; then
+    elif [ "$METHOD" == "newton-sm" ]; then
         # NEWTON'S METHOD
         awk '{ total1+=$1; total2+=$2; total3+=$3; total4+=$4; total5+=$5; total6+=$6; total7+=$7; total8+=$8; total9+=$9; total10+=$10; reqtime+=$11; c++ } \
         END { printf "%f\t%i\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n", reqtime/c*1000,c,total1/c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"mean-$TYPE-$METHOD.out"
