@@ -92,7 +92,6 @@ Vagrant.configure(2) do |config|
   config.vm.define :hub2 do |hub|
     hub.vm.network :forwarded_port, guest: 3000, host: 9002
     hub.vm.hostname = "hub2"
-    hub.vm.synced_folder "/Users/jphire/Code/java_projects/node-test-server/", "/home/vagrant/node-test-server"
     hub.vm.network :private_network, ip: "192.168.56.102"
     hub.vm.provision :shell, path: "setup-nodehub.sh"
   end
