@@ -1,6 +1,7 @@
 set encoding utf8
 
-set terminal epslatex
+set terminal svg
+#set terminal epslatex
 
 #set term pdfcairo enhanced color solid font "Helvetica,24" linewidth 1.5 dashlength 1.5 size 6in,4in
 #set terminal postscript portrait enhanced mono dashed lw 1 "Helvetica" 14
@@ -19,7 +20,8 @@ set ylabel "Performance factors"
 set y2label "IoT-hub execution time (ms)"
 set xlabel "Fibonacci number"
 
-set output 'fibonacci.tex'
+#set output 'fibonacci.tex'
+set output 'fibonacci.svg'
 
 set size 1.0, 1.0
 

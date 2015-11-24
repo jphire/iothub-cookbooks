@@ -1,6 +1,7 @@
 set encoding utf8
 
-set terminal epslatex
+set terminal svg
+#set terminal epslatex
 
 #set term pdfcairo enhanced color solid font "Helvetica,24" linewidth 1.5 dashlength 1.5 size 6in,4in
 #set terminal postscript portrait enhanced mono dashed lw 1 "Helvetica" 14
@@ -19,20 +20,23 @@ set ylabel "Performance factors"
 set y2label "IoT-hub execution time (ms)"
 set xlabel "Amount of calculations"
 
-set output 'fibonacci.tex'
+#set output 'fibonacci.tex'
+set output 'newton.svg'
 
 set size 1.0, 1.0
 
-set xrange [23:32]
-set x2range [23:32]
-set yrange [0:250]
-set y2range [0:5000]
+set xrange [40000:130000]
+set x2range [40000:130000]
+set yrange [0:160]
+set y2range [0:12000]
 
-set grid x y2
+set grid x y
 
-set xtics 2
+set xtics 10000
 set xtics nomirror
-set y2tics 500
+set ytics nomirror
+set ytics 20
+set y2tics 1000
 
 
 plot '../results/latest/newton.dat' u 1:(1) with linespoints t 'Iothub-node' ls 2, \

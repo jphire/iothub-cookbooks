@@ -24,6 +24,9 @@ vendor/
 
 /testbed/out.txt
 /testbed/response.json
+/testbed/scripts/*.svg
+/testbed/scripts/*.dat
+/testbed/scripts/*.tex
 
 /testbed/results/
 *.conf
