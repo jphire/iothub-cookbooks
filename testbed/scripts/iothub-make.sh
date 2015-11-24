@@ -1,12 +1,13 @@
 #!/bin/bash
 
-
-# types=( "iothub" "duktape" "node" )
-# methods=( "fibonacci" "quicksort" "newton" )
 types=( "iothub" "node" "duktape")
-methods=( "fibonacci")
+methods=( "fibonacci" "quicksort" "newton")
 
-echo -n > plot.dat
+time_stamp=$(date +"%s")
+NEWDIR=$time_stamp
+
+mkdir -p ../results/$NEWDIR
+mv ../results/latest/* ../results/$NEWDIR
 
 for m in "${methods[@]}";
 do
@@ -26,20 +27,9 @@ do
     #     END { printf "%f\t%f\t%i\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n", total1/c,reqtime/c*1000,c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"$meanfilename"
 done
 
-paste fibonacci-numbers mean-fibonacci-iothub.out mean-fibonacci-node.out mean-fibonacci-duktape.out >plot.dat
 
-# paste quicksort-numbers mean-quicksort-iothub.out mean-quicksort-node.out mean-quicksort-duktape.out >plot2.dat
+paste fibonacci-numbers ../results/latest/mean-fibonacci-iothub.out ../results/latest/mean-fibonacci-node.out ../results/latest/mean-fibonacci-duktape.out >../results/latest/fibonacci.dat
 
-# paste newton-numbers mean-newton-iothub.out mean-newton-node.out mean-newton-duktape.out >plot3.dat
+paste quicksort-numbers ../results/latest/mean-quicksort-iothub.out ../results/latest/mean-quicksort-node.out ../results/latest/mean-quicksort-duktape.out >../results/latest/quicksort.dat
 
-# for m in "${methods[@]}";
-# do
-#     for col in `seq 1 10`;
-#     do
-#         for t in "${types[@]}";
-#         do
-            
-#         done   
-#     done
-# done
-
+paste newton-numbers ../results/latest/mean-newton-iothub.out ../results/latest/mean-newton-node.out ../results/latest/mean-newton-duktape.out >../results/latest/newton.dat

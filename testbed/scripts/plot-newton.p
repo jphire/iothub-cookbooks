@@ -35,10 +35,10 @@ set xtics nomirror
 set y2tics 500
 
 
-plot 'plot.dat' u 1:(1) with linespoints t 'Iothub-node' ls 2, \
+plot '../results/latest/newton.dat' u 1:(1) with linespoints t 'Iothub-node' ls 2, \
 '' u 1:($2/$4) with linespoints t 'Duktape-node' ls 4, \
 '' u 1:($2/$3) with linespoints t 'Plain NodeJS' ls 3, \
-'mean-newton-iothub.out' using 1:2 axes x1y2 with lines t '' ls 5
+'../results/latest/mean-newton-iothub.out' using 1:2 axes x1y2 with lines t '' ls 5
 
 unset output
 reset

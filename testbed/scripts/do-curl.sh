@@ -30,7 +30,7 @@ function loopX {
     local LOOPCOUNT=$5
     local SCRIPT=$6
     local METHOD=$7
-    # local stamp=${data +"%s"}
+    # local stamp=$(date +"%s")
     local filename=$METHOD-$TYPE.out
     local meanfilename=mean-$filename
 	
@@ -44,7 +44,7 @@ function loopX {
     echo "SCRIPT: $SCRIPT"
     echo "LOOPCOUNT: $LOOPCOUNT"
     echo "FULL OUTPUT FILE: $filename"
-    echo "MEAN OUTPUT FILE: $meanfilename"
+    echo "MEAN OUTPUT FILE: ../results/latest/$meanfilename"
     # IoT Hub curl test
     # Get curl output format from curl-log.txt. Consult that file to find out what is the meaning
     # of each column. The output format should be machine readable, for e.g. gnuplot.
@@ -68,13 +68,13 @@ function loopX {
     # echo "| ------------------------------------------------------------------------------------------------------------- |"
 
 	# Get mean from each column and print it with awk. Mean results are multiplied by 1000 to get milliseconds.
-    echo -n > "$meanfilename"
+    echo -n > "../results/latest/$meanfilename"
 
     # awk '{ total1+=$1; total2+=$2; total3+=$3; total4+=$4; total5+=$5; total6+=$6; total7+=$7; total8+=$8; total9+=$9; total10+=$10; reqtime+=$11; c++ } \
     #     END { printf "%f\t%f\t%i\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n", total1/c,reqtime/c*1000,c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"$meanfilename"
 
     awk '{ total1+=$1; total2+=$2; total3+=$3; total4+=$4; total5+=$5; total6+=$6; total7+=$7; total8+=$8; total9+=$9; total10+=$10; reqtime+=$11; c++ } \
-        END { printf "%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n", total1/c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"$meanfilename"
+        END { printf "%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n", total1/c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"../results/latest/$meanfilename"
 
     rm "$filename"
 	echo "--------------------------------------------------------------------------------------------------------------------------------"
