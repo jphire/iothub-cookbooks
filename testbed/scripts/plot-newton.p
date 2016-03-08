@@ -1,7 +1,7 @@
 set encoding utf8
 
 set terminal svg
-#set terminal epslatex
+#set terminal latex
 
 #set term pdfcairo enhanced color solid font "Helvetica,24" linewidth 1.5 dashlength 1.5 size 6in,4in
 #set terminal postscript portrait enhanced mono dashed lw 1 "Helvetica" 14
@@ -21,14 +21,16 @@ set y2label "IoT-hub execution time (ms)"
 set xlabel "Amount of calculations"
 
 #set output 'fibonacci.tex'
-set output 'newton.svg'
+set output '~/Opiskelu/GitGradu/gradu/newton.svg'
 
 set size 1.0, 1.0
 
 set xrange [40000:130000]
 set x2range [40000:130000]
-set yrange [0:160]
-set y2range [0:12000]
+set yrange [1:160]
+set y2range [1:12000]
+
+set logscale y 2
 
 set grid x y
 
@@ -38,11 +40,12 @@ set ytics nomirror
 set ytics 20
 set y2tics 1000
 
+set title "Newton's method"
 
 plot '../results/latest/newton.dat' u 1:(1) with linespoints t 'Iothub-node' ls 2, \
 '' u 1:($2/$4) with linespoints t 'Duktape-node' ls 4, \
 '' u 1:($2/$3) with linespoints t 'Plain NodeJS' ls 3, \
-'../results/latest/mean-newton-iothub.out' using 1:2 axes x1y2 with lines t '' ls 5
+'../results/latest/newton/iothub.dat' using 1:2 axes x1y2 with lines t '' ls 5
 
 unset output
 reset

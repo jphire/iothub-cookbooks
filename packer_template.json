@@ -1,6 +1,6 @@
 {
     "push": {
-        "name": "jphire/galileo-base2"
+        "name": "jphire/galileo-base"
     },
     "builders": [
         {
@@ -34,7 +34,7 @@
         {
             "type": "vagrant",
             "only": ["virtualbox-ovf"],
-            "output": "galileo-{{.BuildName}}-{{.Provider}}.box"
+            "output": "galileo-new-{{.BuildName}}-{{.Provider}}.box"
         } 
     ]
 }

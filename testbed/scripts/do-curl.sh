@@ -32,7 +32,7 @@ function loopX {
     local METHOD=$7
     # local stamp=$(date +"%s")
     local filename=$METHOD-$TYPE.out
-    local meanfilename=mean-$filename
+    local meanfilename=avg-$filename
 	
 	echo "Starting iot hub tests with hub: $HOST"
 	echo "Clearing output file $filename..
@@ -67,7 +67,7 @@ function loopX {
     # echo "| Mean times                                                                                                     |"
     # echo "| ------------------------------------------------------------------------------------------------------------- |"
 
-	# Get mean from each column and print it with awk. Mean results are multiplied by 1000 to get milliseconds.
+	# Get mean from each column and print it with awk.
     echo -n > "../results/latest/$meanfilename"
 
     # awk '{ total1+=$1; total2+=$2; total3+=$3; total4+=$4; total5+=$5; total6+=$6; total7+=$7; total8+=$8; total9+=$9; total10+=$10; reqtime+=$11; c++ } \
@@ -158,5 +158,7 @@ fi
 
 loopX $TYPE $HOST $PORT $FEED $LOOPCOUNT $SCRIPT $METHOD
 
+echo -n >"../results/latest/$METHOD/$TYPE.dat"
+paste "$METHOD-numbers" "../results/latest/avg-$METHOD-$TYPE.out"  >>"../results/latest/$METHOD/$TYPE.dat"
 
 

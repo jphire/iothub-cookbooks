@@ -16,7 +16,7 @@ Vagrant.configure(2) do |config|
   # IoT Hub specific: you can either use this public base box, or create your own
   # and use that instead. Currently tested with Debian 7, OpenJDK 7 should be installed.
   # The packer template included in this repo can be used to create a custom box.
-  config.vm.box = "jphire/galileo-base2"
+  config.vm.box = "jphire/galileo-base"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -80,7 +80,7 @@ Vagrant.configure(2) do |config|
   # config.vm.provision "shell", path: "setup.sh"
   # config.vm.network "private_network", type: "dhcp"
 
-  # Start 2 hub by default, but users are free to add/remove VMs as they like. 
+  # Start 4 hubs by default, but users are free to add/remove VMs as they like. 
   config.vm.define :hub1 do |hub|
     hub.vm.network :forwarded_port, guest: 8080, host: 9001
     hub.vm.hostname = "hub1"
@@ -90,6 +90,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.define :hub2 do |hub|
+    hub.vm.box = "jphire/iotbox"
     hub.vm.network :forwarded_port, guest: 3000, host: 9002
     hub.vm.hostname = "hub2"
     hub.vm.network :private_network, ip: "192.168.56.102"
@@ -104,4 +105,11 @@ Vagrant.configure(2) do |config|
     hub.vm.provision :shell, path: "setup-duktapehub.sh"
   end
 
+  config.vm.define :hub4 do |hub|
+    hub.vm.network :forwarded_port, guest: 3060, host: 9004
+    hub.vm.hostname = "hub4"
+    # hub.vm.synced_folder "/Users/jphire/Code/node_projects/node-test-server/", "/home/vagrant/node-test-server"
+    hub.vm.network :private_network, ip: "192.168.56.104"
+    hub.vm.provision :shell, path: "setup-node-iothub.sh"
+  end
 end

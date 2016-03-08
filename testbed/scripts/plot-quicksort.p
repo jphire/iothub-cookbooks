@@ -1,7 +1,7 @@
 set encoding utf8
 
 set terminal svg
-#set terminal epslatex
+#set terminal latex
 
 #set term pdfcairo enhanced color solid font "Helvetica,24" linewidth 1.5 dashlength 1.5 size 6in,4in
 #set terminal postscript portrait enhanced mono dashed lw 1 "Helvetica" 14
@@ -21,14 +21,17 @@ set y2label "IoT-hub execution time (ms)"
 set xlabel "Array size"
 
 #set output 'fibonacci.tex'
-set output 'quicksort.svg'
+set output '~/Opiskelu/GitGradu/gradu/quicksort.svg'
+
 
 set size 1.0, 1.0
 
 set xrange [5000:50000]
 set x2range [5000:50000]
-set yrange [0:200]
-set y2range [0:20000]
+set yrange [1:200]
+set y2range [1:20000]
+
+set logscale y 2
 
 set grid x y
 
@@ -38,11 +41,12 @@ set ytics nomirror
 set ytics 20
 set y2tics 2000
 
+set title "Quicksort"
 
 plot '../results/latest/quicksort.dat' u 1:(1) with linespoints t 'Iothub-node' ls 2, \
 '' u 1:($2/$4) with linespoints t 'Duktape-node' ls 4, \
 '' u 1:($2/$3) with linespoints t 'Plain NodeJS' ls 3, \
-'../results/latest/mean-quicksort-iothub.out' using 1:2 axes x1y2 with lines t '' ls 5
+'../results/latest/quicksort/iothub.dat' using 1:2 axes x1y2 with lines t '' ls 5
 
 unset output
 reset
