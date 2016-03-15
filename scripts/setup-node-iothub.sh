@@ -2,8 +2,8 @@
 
 # NodeJS installation for benchmarking
 echo "Installing NodeJS"
-curl -sL https://deb.nodesource.com/setup | bash -
-apt-get install -y nodejs
+curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -
+sudo apt-get install -y nodejs
 
 DIRNAME="node-iothub"
 GITREPO="https://github.com/uh-cs-iotlab/node-iothub.git"
@@ -17,6 +17,15 @@ fi
 
 cd "$DIRNAME"
 
+git checkout advance-executable-feed
+
 sudo npm install --no-bin-links
 
-node server.js &
+sudo echo "{ \
+  \"username\": \"janne\", \
+  \"email\": \"jjaukka@cs.helsinki.fi\", \
+  \"password\": \"janne\" \
+}" >admin-creds.json
+
+
+sudo node . &
