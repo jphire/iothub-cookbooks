@@ -2,19 +2,23 @@
 
 HOST="http://localhost" # e.g. hub1 for VM guests
 FEED="/feeds/3"
-TYPE="iothub"
+TYPE="kahvihub"
+KAHVITYPE="kahvihub"
 NODETYPE="node"
 DUKTAPETYPE="duktape"
 JAVATYPE="java"
-PORT="8080"
+SOLMUTYPE="solmuhub"
+KAHVIPORT="8080"
 NODEPORT="3000"
 JAVAPORT="9000"
 DUKTAPEPORT="3030"
+SOLMUPORT="3000"
 LOOPCOUNT="3"
-METHOD="fibonacci-sm"
-SCRIPT="$METHOD.js" # default to fibonacci script
+METHOD="fibonacci" # default to fibonacci script
+SCRIPT="$METHOD-sm.js"
 IOTHUBUSER="anon"
-CONF="iothub.conf"
+CONF="kahvihub.conf"
+ACCESS_TOKEN=""
 
 
 function loopX {
@@ -28,8 +32,9 @@ function loopX {
     local PORT=$3
     local ADDR=$4
     local LOOPCOUNT=$5
-    local SCRIPT=$6
+    local SCRIPT="../js/$6"
     local METHOD=$7
+    local ACCESS_TOKEN=$8
     # local stamp=$(date +"%s")
     local filename=$METHOD-$TYPE.out
     local meanfilename=avg-$filename
@@ -44,19 +49,29 @@ function loopX {
     echo "SCRIPT: $SCRIPT"
     echo "LOOPCOUNT: $LOOPCOUNT"
     echo "FULL OUTPUT FILE: $filename"
-    echo "MEAN OUTPUT FILE: ../results/latest/$meanfilename"
-    # IoT Hub curl test
+    echo "MEAN OUTPUT FILE: ../../results/latest/$meanfilename"
+
+    # IoT Hub tests
     # Get curl output format from curl-log.txt. Consult that file to find out what is the meaning
     # of each column. The output format should be machine readable, for e.g. gnuplot.
+    CURL_HEADER=""
+    CURL_HEADER="-H 'Content-Type:application/json' "
+    CURL_HEADER="$CURL_HEADER -H 'Accept: application/json' \n"
+
+    if [ "ACCESS_TOKEN" ]; then
+        CURL_HEADER="$CURL_HEADER -H 'Authorization: $ACCESS_TOKEN' \n"
+    fi
+
     while [ $i -lt $LOOPCOUNT ]; do
-        curl -XPOST \
+        curl -XPOST "$CURL_HEADER" \
             -H 'Content-Type:application/json' \
-            -H 'Accept: application/json' \
+            -H 'Accept:application/json' \
+            -H 'Authorization: $ACCESS_TOKEN' \
             --data-binary @"$SCRIPT" \
-            -w "@time-total-format.txt" \
+            -w "@../format/time-total-format.txt" \
             "$HOST:$PORT$ADDR" -s >>$filename
         i=$[$i+1]
-        echo "Request $i / $LOOPCOUNT done"
+        echo "Request $i / $LOOPCOUNT"
     done
 
     # Print results to stdout in a convenient way, only mean is showed. To show total result listing, see
@@ -68,13 +83,17 @@ function loopX {
     # echo "| ------------------------------------------------------------------------------------------------------------- |"
 
 	# Get mean from each column and print it with awk.
-    echo -n > "../results/latest/$meanfilename"
+    if [ ! -e "../../results/latest/$meanfilename" ] ; then
+        touch "../../results/latest/$meanfilename"
+    fi
+
+    echo -n > "../../results/latest/$meanfilename"
 
     # awk '{ total1+=$1; total2+=$2; total3+=$3; total4+=$4; total5+=$5; total6+=$6; total7+=$7; total8+=$8; total9+=$9; total10+=$10; reqtime+=$11; c++ } \
     #     END { printf "%f\t%f\t%i\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n", total1/c,reqtime/c*1000,c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"$meanfilename"
 
     awk '{ total1+=$1; total2+=$2; total3+=$3; total4+=$4; total5+=$5; total6+=$6; total7+=$7; total8+=$8; total9+=$9; total10+=$10; reqtime+=$11; c++ } \
-        END { printf "%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n", total1/c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"../results/latest/$meanfilename"
+        END { printf "%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n%f\n", total1/c,total2/c,total3/c,total4/c,total5/c,total6/c,total7/c,total8/c,total9/c,total10/c}' "$filename" >>"../../results/latest/$meanfilename"
 
     rm "$filename"
 	echo "--------------------------------------------------------------------------------------------------------------------------------"
@@ -92,8 +111,16 @@ case $key in
     LOOPCOUNT="$2"
     shift
     ;;
-    --port) # iothub server port
+    --access-token) # kahvihub server port
+    ACCESS_TOKEN="$2"
+    shift
+    ;;
+    --port) # kahvihub server port
     PORT="$2"
+    shift
+    ;;
+    --kahviport) # kahvihub server port
+    KAHVIPORT="$2"
     shift
     ;;
     --nodeport) # nodejs server port
@@ -104,13 +131,17 @@ case $key in
     JAVAPORT="$2"
     shift
     ;;
-    --duktapeport) # java server port
+    --duktapeport) # duktape server port
     DUKTAPEPORT="$2"
     shift
     ;;
-    --use-iothub)
-    PORT="$PORT"
-    TYPE="iothub"
+    --solmuport) # duktape server port
+    SOLMUPORT="$2"
+    shift
+    ;;
+    --use-kahvihub)
+    PORT="$KAHVIPORT"
+    TYPE="kahvihub"
     shift
     ;;
     --use-node)
@@ -126,6 +157,11 @@ case $key in
     --use-duktape)
     PORT="$DUKTAPEPORT"
     TYPE="duktape"
+    shift
+    ;;
+    --use-solmuhub)
+    PORT="$SOLMUPORT"
+    TYPE="solmuhub"
     shift
     ;;
     --script)
@@ -150,15 +186,19 @@ esac
 shift # past argument or value
 done
 
-if [ -r "$CONF" ]; then
+if [ -r "../conf.d/$CONF" ]; then
   echo "Reading user config for iothub from file $CONF...." >&2
-  . "$CONF"
+  . "../conf.d/$CONF"
 fi
 
+echo "$TYPE $HOST $PORT $FEED $LOOPCOUNT $SCRIPT $METHOD $ACCESS_TOKEN"
+loopX $TYPE $HOST $PORT $FEED $LOOPCOUNT $SCRIPT $METHOD $ACCESS_TOKEN
 
-loopX $TYPE $HOST $PORT $FEED $LOOPCOUNT $SCRIPT $METHOD
-
-echo -n >"../results/latest/$METHOD/$TYPE.dat"
-paste "$METHOD-numbers" "../results/latest/avg-$METHOD-$TYPE.out"  >>"../results/latest/$METHOD/$TYPE.dat"
+if [ ! -e "../../results/latest/$METHOD/$TYPE.dat" ] ; then
+    mkdir -p "../../results/latest/$METHOD" 
+    touch "../../results/latest/$METHOD/$TYPE.dat"
+fi
+echo -n >"../../results/latest/$METHOD/$TYPE.dat"
+paste "../templates/$METHOD-numbers" "../../results/latest/avg-$METHOD-$TYPE.out"  >>"../../results/latest/$METHOD/$TYPE.dat"
 
 

@@ -86,7 +86,7 @@ Vagrant.configure(2) do |config|
     hub.vm.hostname = "hub1"
     # hub.vm.synced_folder "/Users/jphire/Code/java_projects/kahvihub/", "/home/vagrant/kahvihub"
     hub.vm.network :private_network, ip: "192.168.56.101"
-    hub.vm.provision :shell, path: "setup-iothub.sh"
+    hub.vm.provision :shell, path: "scripts/setup-iothub.sh"
   end
 
   config.vm.define :hub2 do |hub|
@@ -94,7 +94,7 @@ Vagrant.configure(2) do |config|
     hub.vm.network :forwarded_port, guest: 3000, host: 9002
     hub.vm.hostname = "hub2"
     hub.vm.network :private_network, ip: "192.168.56.102"
-    hub.vm.provision :shell, path: "setup-nodehub.sh"
+    hub.vm.provision :shell, path: "scripts/setup-nodehub.sh"
   end
 
   config.vm.define :hub3 do |hub|
@@ -102,7 +102,7 @@ Vagrant.configure(2) do |config|
     hub.vm.hostname = "hub3"
     hub.vm.synced_folder "/Users/jphire/Code/node_projects/node-test-server/", "/home/vagrant/node-test-server"
     hub.vm.network :private_network, ip: "192.168.56.103"
-    hub.vm.provision :shell, path: "setup-duktapehub.sh"
+    hub.vm.provision :shell, path: "scripts/setup-duktapehub.sh"
   end
 
   config.vm.define :hub4 do |hub|
@@ -110,6 +110,6 @@ Vagrant.configure(2) do |config|
     hub.vm.hostname = "hub4"
     # hub.vm.synced_folder "/Users/jphire/Code/node_projects/node-test-server/", "/home/vagrant/node-test-server"
     hub.vm.network :private_network, ip: "192.168.56.104"
-    hub.vm.provision :shell, path: "setup-node-iothub.sh"
+    hub.vm.provision :shell, path: "scripts/setup-node-iothub.sh"
   end
 end
