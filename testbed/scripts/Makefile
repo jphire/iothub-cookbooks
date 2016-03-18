@@ -2,14 +2,13 @@ show: fibonacci.svg
 	open fibonacci.svg &
 
 fibonacci: fibonacci.svg
-	open quicksort.svg
+	open img/quicksort.svg
 
 quicksort:
-	open quicksort.svg
+	open img/quicksort.svg
 
 newton:
-	open newton.svg
+	open img/newton.svg
 
 clean:
-
 	rm -f *.out *.log *~
