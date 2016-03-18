@@ -34,7 +34,7 @@
         {
             "type": "vagrant",
             "only": ["virtualbox-ovf"],
-            "output": "galileo-new-{{.BuildName}}-{{.Provider}}.box"
+            "output": "packer-galileo-build-{{timestamp}}.box"
         } 
     ]
 }
