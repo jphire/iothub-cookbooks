@@ -17,11 +17,12 @@ set style line 5 lc rgb "#CCCCCC" lw 1.5 ps 1.0 pi 1
 set key top right
 
 set ylabel "Performance factors"
-set y2label "IoT-hub execution time (ms)"
+set y2label "Kahvihub execution time (ms)"
 set xlabel "Amount of calculations"
 
-#set output 'fibonacci.tex'
-set output '~/Opiskelu/GitGradu/gradu/newton.svg'
+#set output '../../results/latest/plot/newton.tex'
+#set output '~/Opiskelu/GitGradu/gradu/newton.svg'
+set output '../../results/latest/plot/newton.svg'
 
 set size 1.0, 1.0
 
@@ -42,10 +43,11 @@ set y2tics 1000
 
 set title "Newton's method"
 
-plot '../results/latest/newton.dat' u 1:(1) with linespoints t 'Iothub-node' ls 2, \
-'' u 1:($2/$4) with linespoints t 'Duktape-node' ls 4, \
+plot '../../results/latest/newton.dat' u 1:(1) with linespoints t 'Kahvihub' ls 2, \
+'' u 1:($2/$4) with linespoints t 'NodeJS with Duktape vm' ls 4, \
 '' u 1:($2/$3) with linespoints t 'Plain NodeJS' ls 3, \
-'../results/latest/newton/iothub.dat' using 1:2 axes x1y2 with lines t '' ls 5
+'' u 1:($2/$5) with linespoints t 'Solmuhub' ls 5, \
+'../../results/latest/newton/kahvihub.dat' using 1:2 axes x1y2 with lines t '' ls 5
 
 unset output
 reset
