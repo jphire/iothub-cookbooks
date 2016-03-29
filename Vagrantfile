@@ -80,13 +80,17 @@ Vagrant.configure(2) do |config|
   # config.vm.provision "shell", path: "setup.sh"
   # config.vm.network "private_network", type: "dhcp"
 
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.berkshelf.enabled = false
+   
   # Start 4 hubs by default, but users are free to add/remove VMs as they like. 
   config.vm.define :hub1 do |hub|
     hub.vm.network :forwarded_port, guest: 8080, host: 9001
     hub.vm.hostname = "hub1"
     # hub.vm.synced_folder "/Users/jphire/Code/java_projects/kahvihub/", "/home/vagrant/kahvihub"
     hub.vm.network :private_network, ip: "192.168.56.101"
-    hub.vm.provision :shell, path: "scripts/setup-iothub.sh"
+    hub.vm.provision :shell, path: "scripts/setup-kahvihub.sh"
   end
 
   config.vm.define :hub2 do |hub|
@@ -108,8 +112,8 @@ Vagrant.configure(2) do |config|
   config.vm.define :hub4 do |hub|
     hub.vm.network :forwarded_port, guest: 3000, host: 9004
     hub.vm.hostname = "hub4"
-    hub.vm.synced_folder "/home/janne/Code/node-projects/node-iothub/", "/home/vagrant/node-iothub"
+    #hub.vm.synced_folder "/home/janne/Code/node-projects/node-iothub/", "/home/vagrant/node-iothub"
     hub.vm.network :private_network, ip: "192.168.56.104"
-    hub.vm.provision :shell, path: "scripts/setup-node-iothub.sh"
+    hub.vm.provision :shell, path: "scripts/setup-solmuhub.sh"
   end
 end

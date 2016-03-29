@@ -29,5 +29,4 @@ vendor/
 /testbed/scripts/*.tex
 
 /testbed/results/
-*.conf
 *.out
