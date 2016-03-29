@@ -1,8 +1,8 @@
 #!/bin/bash
 
 HOST="http://localhost" # e.g. hub1 for VM guests
-FEED="/feeds/3"
-TYPE="kahvihub"
+FEED="/api/feeds/executable/1/run"
+TYPE="solmuhub"
 KAHVITYPE="kahvihub"
 NODETYPE="node"
 DUKTAPETYPE="duktape"
@@ -15,9 +15,9 @@ DUKTAPEPORT="3030"
 SOLMUPORT="3000"
 LOOPCOUNT="3"
 METHOD="fibonacci" # default to fibonacci script
-SCRIPT="$METHOD-sm.js"
+SCRIPT="$METHOD.js"
 IOTHUBUSER="anon"
-CONF="kahvihub.conf"
+CONF="solmuhub.conf"
 ACCESS_TOKEN=""
 
 
@@ -64,8 +64,8 @@ function loopX {
 
     while [ $i -lt $LOOPCOUNT ]; do
         curl -XPOST "$CURL_HEADER" \
-            -H 'Content-Type:application/json' \
-            -H 'Accept:application/json' \
+            -H 'Content-Type:text/plain' \
+            -H 'Accept:text/plain' \
             -H 'Authorization: $ACCESS_TOKEN' \
             --data-binary @"$SCRIPT" \
             -w "@../format/time-total-format.txt" \
@@ -194,11 +194,15 @@ fi
 echo "$TYPE $HOST $PORT $FEED $LOOPCOUNT $SCRIPT $METHOD $ACCESS_TOKEN"
 loopX $TYPE $HOST $PORT $FEED $LOOPCOUNT $SCRIPT $METHOD $ACCESS_TOKEN
 
+
+# 
 if [ ! -e "../../results/latest/$METHOD/$TYPE.dat" ] ; then
     mkdir -p "../../results/latest/$METHOD" 
     touch "../../results/latest/$METHOD/$TYPE.dat"
 fi
 echo -n >"../../results/latest/$METHOD/$TYPE.dat"
+
+
 paste "../templates/$METHOD-numbers" "../../results/latest/avg-$METHOD-$TYPE.out"  >>"../../results/latest/$METHOD/$TYPE.dat"
 
 
