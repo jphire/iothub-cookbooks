@@ -30,3 +30,4 @@ vendor/
 
 /testbed/results/
 *.out
+*.svg

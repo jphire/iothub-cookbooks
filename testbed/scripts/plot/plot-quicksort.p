@@ -17,11 +17,12 @@ set style line 5 lc rgb "#CCCCCC" lw 1.5 ps 1.0 pi 1
 set key top right
 
 set ylabel "Performance factors"
-set y2label "IoT-hub execution time (ms)"
+set y2label "Kahvihub execution time (ms)"
 set xlabel "Array size"
 
-#set output 'fibonacci.tex'
-set output '~/Opiskelu/GitGradu/gradu/quicksort.svg'
+#set output '../../results/latest/plot/quicksort.tex'
+#set output '~/Opiskelu/GitGradu/gradu/quicksort.svg'
+set output '../../results/latest/plot/quicksort.svg'
 
 
 set size 1.0, 1.0
@@ -43,10 +44,11 @@ set y2tics 2000
 
 set title "Quicksort"
 
-plot '../results/latest/quicksort.dat' u 1:(1) with linespoints t 'Iothub-node' ls 2, \
+plot '../../results/latest/quicksort.dat' u 1:(1) with linespoints t 'Kahvihub' ls 2, \
 '' u 1:($2/$4) with linespoints t 'Duktape-node' ls 4, \
 '' u 1:($2/$3) with linespoints t 'Plain NodeJS' ls 3, \
-'../results/latest/quicksort/iothub.dat' using 1:2 axes x1y2 with lines t '' ls 5
+'' u 1:($2/$5) with linespoints t 'Solmuhub' ls 5, \
+'../../results/latest/quicksort/kahvihub.dat' using 1:2 axes x1y2 with lines t '' ls 5
 
 unset output
 reset
