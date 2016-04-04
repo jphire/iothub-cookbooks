@@ -5,9 +5,9 @@
 # indicates when they have been moved there, not the date that the tests in those folders where run. Possibly the next former
 # timestamped folder in results is the timestamp of the next newer tests.. pretty complicated but.. yeah. 
 
-types=( "solmuhub" "kahvihub" "node" "duktape" )
-methods=( "newton" "quicksort" "newton" )
-times=1
+types=( "solmuhub" "node" "kahvihub" "duktape" )
+methods=( "fibonacci" "quicksort" "newton")
+times=100
 scr="Scripts"
 CONF="main.conf"
 
@@ -27,7 +27,7 @@ BACKUPDIR=$time_stamp
 TEMPLATE_DIR=templates
 BIN_DIR=bin
 
-#mkdir -p $RESULTSPATH/$BACKUPDIR
+mkdir -p $RESULTSPATH/$BACKUPDIR
 mv $LATESTPATH $RESULTSPATH/$BACKUPDIR
 #rm -r $LATESTPATH/*
 mkdir -p $LATESTPATH
@@ -36,6 +36,30 @@ touch $LATESTPATH/TEST-SPEC
 mkdir -p $STATSPATH
 mkdir -p $AVGPATH
 printf "Test was started at: %s\nLoop times: %d\n" "$pretty_date" "$times" >>"$LATESTPATH/TEST-SPEC"
+
+echo -n >"../$TEMPLATE_DIR/methods"
+# if servers are not currently running, start them
+for type in "${types[@]}"; do
+    echo "$type" >>"../$TEMPLATE_DIR/methods"
+    tmpcom="${type^^}SCRIPT"
+    tmppth="${type^^}PATH"
+    script="${!tmpcom}"
+    path="${!tmppth}"
+    tmpPid="${type}Pid"
+    if [ -z "${!tmpPid}" ]; then
+        cd "$path"
+        . $($script) &
+    else
+        echo "$type already running, moving on.."
+    fi
+    if [ "$?" -gt "0" ]; then
+        echo "Could not initialize script $script at $path"
+        cd "$SCRIPTSPATH/bin"
+        exit 1
+    fi 
+    cd "$SCRIPTSPATH/bin"
+done
+
 
 for method in "${methods[@]}";
 do
@@ -62,15 +86,26 @@ done
 
 mkdir -p $LATESTPATH/plot
 
-for method in "${methods[@]}";
-do
-    if [ ! -e "$LATESTPATH/$method.dat" ] ; then 
+for method in "${methods[@]}"; do
+    if [ ! -e "$LATESTPATH/$method.dat" ]; then
         touch "$LATESTPATH/$method.dat"
     fi
 
-    paste ../$TEMPLATE_DIR/$method-numbers $AVGPATH/avg*  >"$LATESTPATH/$method.dat"
+    # Paste execution time results
+    paste $SCRIPTSPATH/$TEMPLATE_DIR/$method-numbers $AVGPATH/avg-$method*  >"$LATESTPATH/$method.dat"
 
-    gnuplot ../plot/plot-$method.p
+    for type in "${types[@]}"; do
+        # Paste CPU and memory monitoring results
+        printf "%s\t" "$type" >>"$LATESTPATH/$method-cpu.dat"
+        paste "$LATESTPATH/$method/$type-cpu.dat" >>"$LATESTPATH/$method-cpu.dat"
+
+        printf "%s\t" "$type" >>"$LATESTPATH/$method-mem.dat"
+        paste "$LATESTPATH/$method/$type-mem.dat" >>"$LATESTPATH/$method-mem.dat"
+    done
+
+    gnuplot $SCRIPTSPATH/plot/plot-$method.p
+    gnuplot $SCRIPTSPATH/plot/plot-$method-cpu.p
+    gnuplot $SCRIPTSPATH/plot/plot-$method-mem.p
 done
 
 end_stamp=$(date +"%s")

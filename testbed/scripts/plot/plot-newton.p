@@ -44,10 +44,12 @@ set y2tics 1000
 set title "Newton's method"
 
 plot '../../results/latest/newton.dat' u 1:(1) with linespoints t 'Kahvihub' ls 2, \
-'' u 1:($2/$4) with linespoints t 'NodeJS with Duktape vm' ls 4, \
-'' u 1:($2/$3) with linespoints t 'Plain NodeJS' ls 3, \
-'' u 1:($2/$5) with linespoints t 'Solmuhub' ls 5, \
-'../../results/latest/newton/kahvihub.dat' using 1:2 axes x1y2 with lines t '' ls 5
+'' u 1:($3/$2) with linespoints t 'Duktape-node' ls 3, \
+'' u 1:($3/$4) with linespoints t 'Plain NodeJS' ls 4, \
+'' u 1:($3/$5) with linespoints t 'Solmuhub' ls 5,
+
+
+# '../../results/latest/newton/kahvihub.dat' using 1:2 axes x1y2 with lines t '' ls 5
 
 unset output
 reset
