@@ -63,6 +63,7 @@ function loopX {
             --data-binary @"$SCRIPT" \
             "$HOST:$PORT$ADDR" -s >>$ALLPATH/$filename
             #-w "@../format/time-total-format.txt" \
+        printf "\n" >>$ALLPATH/$filename
         i=$[$i+1]
         echo "
 Request $i / $LOOPCOUNT"
