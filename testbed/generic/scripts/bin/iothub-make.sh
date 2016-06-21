@@ -3,7 +3,7 @@
 # This shell script executes all the algorithms on every type of hub, and outputs results under the 'latest'
 # directory. Old results in latest are saved and moved under a timestamped directory in 'results' folder, so the timestamp
 # indicates when they have been moved there, not the date that the tests in those folders where run. Possibly the next former
-# timestamped folder in results is the timestamp of the next newer tests.. pretty complicated but.. yeah. 
+# timestamped folder in results is the timestamp of the next latest tests.. pretty complicated but.. yeah. 
 
 types=( "solmuhub" "node" "kahvihub" "duktape" )
 methods=( "fibonacci" "quicksort" "newton")
@@ -46,6 +46,7 @@ for type in "${types[@]}"; do
     script="${!tmpcom}"
     path="${!tmppth}"
     tmpPid="${type}Pid"
+    # check if process with correct pid exists, see config.sh
     if [ -z "${!tmpPid}" ]; then
         cd "$path"
         . $($script) &

@@ -83,7 +83,7 @@ Request $i / $LOOPCOUNT"
         echo "Waiting for $STATSPATH/$METHOD-$TYPE-mem.dat to appear.."
         sleep 1; 
     done
-    
+
     while ! grep "Average*" $STATSPATH/$METHOD-$TYPE-cpu.dat; do
         echo "Waiting for $STATSPATH/$METHOD-$TYPE-cpu.dat to appear.."
         sleep 1; 

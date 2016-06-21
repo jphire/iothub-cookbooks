@@ -5,11 +5,11 @@
 # indicates when they have been moved there, not the date that the tests in those folders where run. Possibly the next former
 # timestamped folder in results is the timestamp of the next newer tests.. pretty complicated but.. yeah. 
 
-types=( "solmuhub" "node" "kahvihub" "duktape" )
-methods=( "fibonacci" "quicksort" "newton")
-times=200
+types=( "solmuhub" )
+methods=( "image1" )
+times=100
 scr="Scripts"
-CONF="main.conf"
+CONF="data-tests.conf"
 
 . "config.sh"
 
@@ -60,7 +60,7 @@ for type in "${types[@]}"; do
     cd "$SCRIPTSPATH/bin"
 done
 
-
+# Send curl requests to each type of hub, and use each type of script file as source.
 for method in "${methods[@]}";
 do
     for type in "${types[@]}";

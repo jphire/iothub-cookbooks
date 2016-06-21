@@ -28,6 +28,12 @@ vendor/
 /testbed/scripts/*.dat
 /testbed/scripts/*.tex
 
-/testbed/results/
+/testbed/generic/results/
+/testbed/solmuhub/results/
+
+/testbed/solmuhub/scripts/node_modules
+
+/testbed/solmuhub/logs
+
 *.out
 *.svg
